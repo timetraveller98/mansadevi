@@ -19,7 +19,7 @@ const Footer = () => {
           </Col>
         </Row>
         <hr />
-        <div className="my-1 text-center fw-bold">© 2024 Mansa Devi</div>
+        <div className="my-1 text-center fw-bold">© 2024 Mansa Devi Langar</div>
       </Container>
     </div>
   );
