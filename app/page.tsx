@@ -27,7 +27,7 @@ const Home: NextPage = async () => {
         <Row>
           {langars.map((item) => (
             <Col md={4} key={item.id}>
-              <div className="border shadow bg-pink-100 p-3 my-3 rounded">
+              <div className="border shadow bg-blue-50 p-3 my-3 rounded">
                 <div className="flex justify-center items-center">
                   <Image
                     src={item.imgUrl}
