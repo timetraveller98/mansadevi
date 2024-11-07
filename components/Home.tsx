@@ -1,25 +1,21 @@
-'use client'
+"use client";
 import { Langar } from "@prisma/client";
 import { useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import DistrictState from "@/app/utils/state.json";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import moment from "moment";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 interface LangarProps {
-    langars : Langar[] 
+  langars: Langar[];
 }
-const Details:React.FC<LangarProps> = ({langars}) => {
+const Details: React.FC<LangarProps> = ({ langars }) => {
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
   const filteredDoctors = langars.filter((langar: any) => {
     const matchesState = state ? langar.state === state : true;
     const matchesDistrict = district ? langar.district === district : true;
 
-    return  matchesState && matchesDistrict;
+    return matchesState && matchesDistrict;
   });
 
   const handleState = (event: any) => {
@@ -29,65 +25,65 @@ const Details:React.FC<LangarProps> = ({langars}) => {
   const handleDistrict = (event: any) => {
     setDistrict(event.target.value);
   };
-    return ( 
-      <div>
+  return (
+    <div>
       <Container>
-      <Row>
-      <Col xs={6}>
-          <FormControl
-            fullWidth
-            className="m-1 my-3"
-            required
-            variant="outlined"
-          >
-            <InputLabel id="state-label">State</InputLabel>
-            <Select
-              labelId="state-label"
-              id="state-select"
-              value={state}
-              label="State"
+        <Row>
+          <Col xs={6}>
+            <FormControl
+              fullWidth
+              className="m-1 my-3"
               required
-              onChange={handleState}
+              variant="outlined"
             >
-              {DistrictState.map((item: any) => (
-                <MenuItem value={item.state} key={item.state}>
-                  {item.state}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Col>
-        <Col xs={6}>
-          <FormControl
-            fullWidth
-            className="m-1 my-3"
-            disabled={!state}
-            variant="outlined"
-            required
-          >
-            <InputLabel id="district-label">District</InputLabel>
-            <Select
-              labelId="district-label"
-              id="district-select"
-              value={district}
-              label="District"
+              <InputLabel id="state-label">State</InputLabel>
+              <Select
+                labelId="state-label"
+                id="state-select"
+                value={state}
+                label="State"
+                required
+                onChange={handleState}
+              >
+                {DistrictState.map((item: any) => (
+                  <MenuItem value={item.state} key={item.state}>
+                    {item.state}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Col>
+          <Col xs={6}>
+            <FormControl
+              fullWidth
+              className="m-1 my-3"
+              disabled={!state}
+              variant="outlined"
               required
-              onChange={handleDistrict}
             >
-              {DistrictState.filter((item) => item.state === state).map(
-                (item) =>
-                  item.districts.map((data) => (
-                    <MenuItem value={data} key={data}>
-                      {data}
-                    </MenuItem>
-                  ))
-              )}
-            </Select>
-          </FormControl>
-        </Col>
-      </Row>
-    </Container>
-        <Container>
+              <InputLabel id="district-label">District</InputLabel>
+              <Select
+                labelId="district-label"
+                id="district-select"
+                value={district}
+                label="District"
+                required
+                onChange={handleDistrict}
+              >
+                {DistrictState.filter((item) => item.state === state).map(
+                  (item) =>
+                    item.districts.map((data) => (
+                      <MenuItem value={data} key={data}>
+                        {data}
+                      </MenuItem>
+                    ))
+                )}
+              </Select>
+            </FormControl>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
         <Row>
           {filteredDoctors.map((item) => (
             <Col md={4} key={item.id}>
@@ -160,7 +156,7 @@ const Details:React.FC<LangarProps> = ({langars}) => {
                       .map((sabji, index, arr) =>
                         index === arr.length - 1 ? sabji : `${sabji}, `
                       )
-                      .reduce((acc:any, curr) => acc + curr, "")}
+                      .reduce((acc: any, curr) => acc + curr, "")}
                   </h6>
 
                   <h6>
@@ -173,16 +169,15 @@ const Details:React.FC<LangarProps> = ({langars}) => {
                       ? "Kheer"
                       : null}
                   </h6>
-
-             
+                  {/* <h6>{moment(item.createdAt).fromNow()}</h6> */}
                 </div>
               </div>
             </Col>
           ))}
         </Row>
       </Container>
-      </div>
-     );
-}
- 
+    </div>
+  );
+};
+
 export default Details;
