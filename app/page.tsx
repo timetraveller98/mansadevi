@@ -1,14 +1,15 @@
 import { Container, Row, Col } from "react-bootstrap";
 import type { NextPage } from 'next';
+import TopCarousel from "@/components/Slider";
  
 
 const Home: NextPage = () => {
   return (
     <div className="">
-    <Container >
+    <Container fluid>
       <Row>
         <Col md={12}>
-        <h1>Home Page</h1>
+        <TopCarousel />
         </Col>
     </Row>
   </Container>

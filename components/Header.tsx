@@ -2,7 +2,7 @@ import NavbarData from "./Navbar";
 import { Container, Row, Col } from "react-bootstrap";
 const Header = () => {
   return (
-    <div className="bg-light">
+    <div className="bg-light sticky-top">
     <Container>
       <Row>
         <Col md={12}>
