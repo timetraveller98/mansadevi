@@ -12,8 +12,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Mansa Devi",
-  description: "Mansa Devi Langar website",
+  title: "Free Bhandara",
+  description: "Free Bhandara & Langar website",
 };
 
 export default function RootLayout({
