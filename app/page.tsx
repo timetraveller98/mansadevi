@@ -85,23 +85,18 @@ const Home: NextPage = async () => {
 
                   <h6>
                     <span className="fw-semibold">Sabji : </span>
-                    {item.chhole &&
-                    item.kaddu &&
-                    item.paneer &&
-                    item.gobhi &&
-                    item.aloo
-                      ? "Chhole, Kaddu, Paneer, Mix Veg, Aloo"
-                      : item.chhole
-                      ? "Chhole"
-                      : item.kaddu
-                      ? "Kaddu"
-                      : item.paneer
-                      ? "Paneer"
-                      : item.gobhi
-                      ? "Mix Veg"
-                      : item.aloo
-                      ? "Aloo"
-                      : null}
+                    {[
+                      item.chhole && "Chhole",
+                      item.kaddu && "Kaddu",
+                      item.paneer && "Paneer",
+                      item.gobhi && "Mix Veg",
+                      item.aloo && "Aloo",
+                    ]
+                      .filter(Boolean)
+                      .map((sabji, index, arr) =>
+                        index === arr.length - 1 ? sabji : `${sabji}, `
+                      )
+                      .reduce((acc:any, curr) => acc + curr, "")}
                   </h6>
 
                   <h6>
