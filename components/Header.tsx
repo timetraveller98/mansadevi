@@ -1,6 +1,6 @@
 import NavbarData from "./Navbar";
 import { Container, Row, Col } from "react-bootstrap";
-const Header = async () => {
+const Header = () => {
   return (
     <div className="bg-light">
     <Container>
