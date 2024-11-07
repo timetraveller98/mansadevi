@@ -25,7 +25,7 @@ import app from "@/app/libs/firebase";
 const LangarForm = () => {
   const [img, setImg] = useState<File | null>(null);
   const [imgPerc, setImgPerc] = useState(0);
-  const [imgUrl, setImgUrl] = useState<string>("");
+  const [imgUrl, setImgUrl] = useState("");
   const [puri, setPuri] = useState(false);
   const [roti, setRoti] = useState(false);
   const [dal, setDal] = useState(false);
@@ -117,7 +117,6 @@ const LangarForm = () => {
       let response = await fetch("/api/langar", {
         method: "POST",
         body: JSON.stringify({
-          imgUrl,
           puri,
           roti,
           dal,
@@ -137,6 +136,7 @@ const LangarForm = () => {
           state,
           district,
           pincode,
+          imgUrl,
         }),
         mode: "cors",
         cache: "no-cache",

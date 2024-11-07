@@ -173,6 +173,8 @@ const Details:React.FC<LangarProps> = ({langars}) => {
                       ? "Kheer"
                       : null}
                   </h6>
+
+             
                 </div>
               </div>
             </Col>
