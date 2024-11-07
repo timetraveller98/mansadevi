@@ -5,7 +5,7 @@ const Footer = () => {
     <div className="p-4 bg-light">
       <Container >
         <Row>
-          <Col md={4}>
+          {/* <Col md={4}>
             <div className="flex justify-center items-center flex-col">
               <Image
                 src="/logo.png"
@@ -16,7 +16,7 @@ const Footer = () => {
                 objectFit="cover"
               />
             </div>
-          </Col>
+          </Col> */}
         </Row>
         <hr />
         <div className="my-1 text-center fw-bold">© 2024 Langar Website</div>
