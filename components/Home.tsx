@@ -3,8 +3,9 @@ import { Langar } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import DistrictState from "@/app/utils/state.json";
-import moment from "moment";
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { getStorage,deleteObject, ref, listAll } from "firebase/storage";
+import app from '@/app/libs/firebase';
 interface LangarProps {
   langars: Langar[];
 }
@@ -14,7 +15,6 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
   const filtered = langars.filter((langar: any) => {
     const matchesState = state ? langar.state === state : true;
     const matchesDistrict = district ? langar.district === district : true;
-
     return matchesState && matchesDistrict;
   });
 
@@ -29,14 +29,39 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
     try {
       const res = await fetch("/api/langar", { method: "DELETE" });
       const result = await res.json();
-      console.log("Data deleted:", result);
     } catch (error) {
       console.error("Failed to delete data:", error);
     }
   };
 
+  const deleteImage = async () => {
+    try {
+      const existingImageUrls = langars.filter(item => item.imgUrl).map(item => item.imgUrl);
+      const storage = getStorage(app);
+      const storageRef = ref(storage, '');
+      const allImages = await listAll(storageRef);
+      const deletePromises = allImages.items.map(async (imageRef) => {
+        if (!existingImageUrls.includes(imageRef.fullPath)) {
+          try {
+            await deleteObject(imageRef);
+            console.log("Image deleted from Firebase:", imageRef.fullPath);
+          } catch (error) {
+            console.error("Error deleting image from Firebase:", error);
+          }
+        }
+      });
+      await Promise.all(deletePromises)
+      console.log("All images not referenced in MongoDB have been deleted from Firebase.");
+    } catch (error) {
+      console.error("Error occurred during the deletion process:", error);
+    }
+  };
+  
+  
+
   useEffect(() => {
     deleteData();
+    deleteImage();
   }, []);
   return (
     <div>
@@ -94,11 +119,6 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
               </Select>
             </FormControl>
           </Col>
-          {/* <Col>
-          <div>
-          <Button variant="outlined" color="inherit" onClick={}>Refresh</Button>
-          </div>
-          </Col> */}
         </Row>
       </Container>
       <Container>
