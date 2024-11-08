@@ -1,17 +1,17 @@
 "use client";
 import { Langar } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import DistrictState from "@/app/utils/state.json";
 import moment from "moment";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 interface LangarProps {
   langars: Langar[];
 }
 const Details: React.FC<LangarProps> = ({ langars }) => {
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
-  const filteredDoctors = langars.filter((langar: any) => {
+  const filtered = langars.filter((langar: any) => {
     const matchesState = state ? langar.state === state : true;
     const matchesDistrict = district ? langar.district === district : true;
 
@@ -25,6 +25,19 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
   const handleDistrict = (event: any) => {
     setDistrict(event.target.value);
   };
+  const deleteData = async () => {
+    try {
+      const res = await fetch("/api/langar", { method: "DELETE" });
+      const result = await res.json();
+      console.log("Data deleted:", result);
+    } catch (error) {
+      console.error("Failed to delete data:", error);
+    }
+  };
+
+  useEffect(() => {
+    deleteData();
+  }, []);
   return (
     <div>
       <Container>
@@ -81,11 +94,22 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
               </Select>
             </FormControl>
           </Col>
+          {/* <Col>
+          <div>
+          <Button variant="outlined" color="inherit" onClick={}>Refresh</Button>
+          </div>
+          </Col> */}
         </Row>
       </Container>
       <Container>
         <Row>
-          {filteredDoctors.map((item) => (
+          {filtered.length === 0 ? (
+          <Col>
+            <div className="text-center my-4">
+              <h4>No bhandara in your area</h4>
+            </div>
+          </Col>
+        ) : (filtered.map((item) => (
             <Col md={4} key={item.id}>
               <div className="border shadow bg-blue-50 p-3 my-3 rounded">
                 <div className="flex justify-center items-center">
@@ -169,11 +193,10 @@ const Details: React.FC<LangarProps> = ({ langars }) => {
                       ? "Kheer"
                       : null}
                   </h6>
-                  {/* <h6>{moment(item.createdAt).fromNow()}</h6> */}
                 </div>
               </div>
             </Col>
-          ))}
+          )))}
         </Row>
       </Container>
     </div>
